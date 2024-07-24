@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KHENG Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            position: relative;
+            background-image: url('photo.jpg'); /* Path to your background image */
+            background-size: cover; /* Ensures the image covers the whole viewport */
+            background-position: center; /* Centers the image */
+            background-repeat: no-repeat; /* Prevents the image from repeating */
+        }
+        .countdown {
+            text-align: center;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            display: none; /* Initially hidden */
+        }
+        .countdown h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        .countdown div {
+            font-size: 3em;
+            margin: 10px 0;
+        }
+        .countdown h2 {
+            font-size: 1.5em;
+            margin-top: 20px;
+            color: #333;
+        }
+        .spotify-player {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 0;
+        }
+        .popup {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+            display: none; /* Initially hidden */
+        }
+        .popup p {
+            margin: 0;
+        }
+        .popup button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <p id="popup-text">Do you moz me?</p>
+        <button onclick="handleResponse(true)">Yes</button>
+        <button onclick="handleResponse(false)">No</button>
+        <p id="error-message" class="error-message"></p>
+    </div>
+
+    <!-- Countdown Timer and Spotify Player -->
+    <div class="countdown" id="countdown">
+        <h1>🧸❤️Countdown till I see my kheng again❤️🧸</h1>
+        <div id="timer"></div>
+        <h2>harchi in timer kamtar mishe, man bishtar mozet khaaham dasht khengoole cute e khare man ❤️🧸</h2>
+<h3>Miss you so much kherse!</h3>
+    </div>
+    <div class="spotify-player">
+        <iframe id="spotify-iframe" src="https://open.spotify.com/embed/track/0ZNU020wNYvgW84iljPkPP" width="300" height="80" frameborder="0" allowtransparency="true" allow="encrypted-media"></iframe>
+    </div>
+
+    <script>
+        // Show the popup on page load
+        window.onload = function() {
+            document.getElementById('popup').style.display = 'block';
+        };
+
+        function handleResponse(isYes) {
+            if (isYes) {
+                // Hide the popup
+                document.getElementById('popup').style.display = 'none';
+                
+                // Show the countdown timer
+                document.getElementById('countdown').style.display = 'block';
+
+                // Set the date we're counting down to
+                const countDownDate = new Date("July 28, 2024 15:00:00").getTime();
+
+                // Update the count down every 1 second
+                const x = setInterval(function() {
+                    // Get today's date and time
+                    const now = new Date().getTime();
+
+                    // Find the distance between now and the count down date
+                    const distance = countDownDate - now;
+
+                    // Time calculations for days, hours, minutes and seconds
+                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                    // Display the result in the element with id="timer"
+                    document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+                    // If the count down is over, write some text
+                    if (distance < 0) {
+                        clearInterval(x);
+                        document.getElementById("timer").innerHTML = "EXPIRED";
+                    }
+                }, 1000);
+
+                // Start playing the music
+                playSpotify();
+            } else {
+                // Show an error message and keep the popup visible
+                document.getElementById('error-message').innerText = "Wrong answer. Try again.";
+                document.getElementById('popup-text').innerText = "Do you moz me?";
+            }
+        }
+
+        function playSpotify() {
+            const iframe = document.getElementById('spotify-iframe');
+            iframe.src += '?autoplay=1'; // Append autoplay parameter
+        }
+    </script>
+</body>
+</html>
